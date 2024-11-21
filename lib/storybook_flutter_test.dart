@@ -6,7 +6,7 @@ import 'package:meta/meta.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 import 'package:storybook_flutter_test/src/font_loader.dart';
 
-typedef Layout = ({
+typedef LayoutFrame = ({
   DeviceInfo device,
   Orientation orientation,
   bool isFrameVisible,
@@ -15,7 +15,7 @@ typedef Layout = ({
 @isTest
 Future<void> testStorybook(
   Storybook storybook, {
-  List<Layout>? layouts,
+  List<LayoutFrame>? layouts,
   bool Function(Story story)? filterStories,
   FutureOr<void> Function(WidgetTester tester, Story story)? pump,
 }) async {
@@ -36,10 +36,10 @@ Future<void> testStorybook(
 void _testStory(
   Storybook storybook,
   String story, {
-  List<Layout>? layouts,
+  List<LayoutFrame>? layouts,
   required FutureOr<void> Function(WidgetTester tester) pump,
 }) {
-  final Layout defaultLayout = (
+  final LayoutFrame defaultLayout = (
     device: Devices.ios.iPhone13,
     orientation: Orientation.portrait,
     isFrameVisible: false,
@@ -68,6 +68,7 @@ void _testStory(
             isFrameVisible: isFrameVisible,
             orientation: orientation,
             screen: Storybook(
+              initialLayout: Layout.compact,
               initialStory: story,
               showPanel: false,
               wrapperBuilder: storybook.wrapperBuilder,
